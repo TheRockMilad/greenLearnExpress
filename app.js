@@ -5,6 +5,8 @@ const app = express();
 require("./configs/db");
 const UserModel = require("./models/users");
 const registerValidator = require("./validator/register");
+const { isValidObjectId } = require("mongoose");
+const mongoose = require("mongoose");
 // ------------------- middleware ---------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,7 +52,7 @@ app.post("/api/users", async (req, res) => {
   const validationResult = registerValidator(req.body);
   // اینجا چون خروجی ولیدیشن ریزالت یا ترو هست یا یک آرایه از خطا
   // باید به طور صریح بررسی بشه که برابر با ترو هست یا نه
-  console.log(validationResult);
+  // console.log(validationResult);
   if (validationResult !== true) {
     return res.status(422).json(validationResult);
   }
@@ -80,6 +82,15 @@ app.get("/courses", (req, res) => {
   //   res.json(courses)
   //   res.json("test")
   //   res.end("test course with end") دیگه استفاده نمیشه
+});
+//-------------------validation objectId-------------------
+app.get("/test/:id", (req, res) => {
+  const { id } = req.params;
+  //روش اول
+  // res.send(isValidObjectId(id))
+  //  res.send(mongoose.isValidObjectId(id))
+  // روش دوم
+  res.send(mongoose.Types.ObjectId.isValid(id));
 });
 
 //------------------- CRUD Api -----------------------------
