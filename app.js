@@ -63,6 +63,15 @@ app.delete("/courses/:id", (req, res) => {
   res.status(200).send("main course deleted successfully ");
 });
 
+//---------- A few parameters at route params -----------------------
+app.get("/api/users/:userID/article/:articleID", (req, res) => {
+  console.log(`User id is : ${req.params.userID}`);
+  console.log(`article id is : ${req.params.articleID}`);
+  res.json({
+    message: "Main user article send to clint",
+  });
+});
+
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
