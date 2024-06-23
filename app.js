@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 // قبلا بجای میدلور های اکسپرس از این استفاده میشده
 //const bodyparser = require("body-parser")
+require('./configs/db')
+
 // ------------------- middleware ---------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
