@@ -18,7 +18,7 @@ const courses = [
   },
 ];
 //-------------- get request --------------------
-app.get("/courses1/:id", (req, res) => {
+app.get("/courses/:id", (req, res) => {
   const course = courses.find(
     (courses) => courses.id === Number(req.params.id)
   );
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 });
 
 //-------------- all response ------------------
-app.get("/courses2/:id", (req, res) => {
+app.get("/courses", (req, res) => {
   const course = courses.find(
     (courses) => courses.id === Number(req.params.id)
   );
@@ -44,6 +44,23 @@ app.get("/courses2/:id", (req, res) => {
   //   res.json(courses)
   //   res.json("test")
   //   res.end("test course with end") دیگه استفاده نمیشه
+});
+
+//------------------- CRUD Api -----------------------------
+app.post("/courses", (req, res) => {
+  // مدل دیگه ای استاتوس کد
+  // res.statusCode = 201
+  // res.send("main course created successfully ")
+
+  res.status(201).send("main course created successfully ");
+});
+
+app.put("/courses/:id", (req, res) => {
+  res.status(201).send("main course updated successfully ");
+});
+
+app.delete("/courses/:id", (req, res) => {
+  res.status(200).send("main course deleted successfully ");
 });
 
 //--------------server---------------------------
