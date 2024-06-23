@@ -1,8 +1,14 @@
 const express = require("express");
 const app = express();
+// قبلا بجای میدلور های اکسپرس از این استفاده میشده
+//const bodyparser = require("body-parser")
 // ------------------- middleware ---------------------------
-app.use(express.json())
-app.use(express.urlencoded({extended :true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// این دو تا پایینی کار دو تا بالایی میکنه
+// app.use(bodyparser.json())
+// app.use(bodyparser.urlencoded({extended :false}))
+
 //------------------ courses -------------------------
 const courses = [
   {
@@ -77,12 +83,12 @@ app.get("/api/users/:userID/article/:articleID", (req, res) => {
 });
 
 // ------------ body ---------------
-app.post("/post",(req,res)=>{
-    //  باید دو تا میدلور بنویسیم تا هم از فرم و هم از مقدار
-    //  رو دریافت کنه json
-    res.status(201).send('New main course created')
-    console.log(req.body);
-})
+app.post("/post", (req, res) => {
+  //  باید دو تا میدلور بنویسیم تا هم از فرم و هم از مقدار
+  //  رو دریافت کنه json
+  res.status(201).send("New main course created");
+  console.log(req.body);
+});
 
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
