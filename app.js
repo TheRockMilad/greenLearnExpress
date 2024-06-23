@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 // قبلا بجای میدلور های اکسپرس از این استفاده میشده
 //const bodyparser = require("body-parser")
-require('./configs/db')
-
+require("./configs/db");
+const UserModel = require("./models/users");
 // ------------------- middleware ---------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +43,20 @@ app.get("/courses/:id", (req, res) => {
 //--------------- main page -------------------
 app.get("/", (req, res) => {
   res.send("Hello world");
+});
+// ------------- create user ---------------------
+app.post("/api/users", (req, res) => {
+  let { username, name, email, age } = req.body;
+  if (name === "" || username === "" || email === "") {
+    res.status(422).json({
+      message: "Data is not valid",
+    });
+  } else {
+    UserModel.create({name,email,username,age})
+    res.status(201).json({
+      message : "New User created successfully"
+    })
+  }
 });
 
 //-------------- all response ------------------
