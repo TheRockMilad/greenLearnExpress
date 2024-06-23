@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+// ------------------- middleware ---------------------------
+app.use(express.json())
+app.use(express.urlencoded({extended :true}))
+//------------------ courses -------------------------
 const courses = [
   {
     id: 1,
@@ -71,6 +75,14 @@ app.get("/api/users/:userID/article/:articleID", (req, res) => {
     message: "Main user article send to clint",
   });
 });
+
+// ------------ body ---------------
+app.post("/post",(req,res)=>{
+    //  باید دو تا میدلور بنویسیم تا هم از فرم و هم از مقدار
+    //  رو دریافت کنه json
+    res.status(201).send('New main course created')
+    console.log(req.body);
+})
 
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
