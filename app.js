@@ -4,11 +4,18 @@ require("./configs/db");
 const mainRouter = require("./router/main");
 const ApiRouter = require("./router/api");
 const middleware = require('./middleware/test')
+const morgan = require('morgan')
 
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(middleware.testMiddleware)
+//مدل های مختلف مورگان
+app.use(morgan("combined"))
+// app.use(morgan("tiny"))
+// app.use(morgan("dev"))
+// app.use(morgan("short"))
+
+// app.use(middleware.testMiddleware) //middleware
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
 
