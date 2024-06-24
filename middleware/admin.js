@@ -8,7 +8,9 @@ async function isAdmin(req, res, next) {
       message: "Id is not valid",
     });
   } else {
-    const user = await UserModel.findOne({_id : id}).lean()
+    const user = await UserModel.findOne({ _id: id }).lean();
+    // اضافه کردن یوزر در درخواست
+    req.user = user;
     if (user) {
       if (user.role === "ADMIN") {
         return next();
