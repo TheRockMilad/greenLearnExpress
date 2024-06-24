@@ -35,7 +35,8 @@ async function camelcase(req, res, next) {
     next();
   };
 
-module.exports = {
+
+  module.exports = {
   isAdmin,
   camelcase
 };

@@ -3,19 +3,35 @@ const app = express();
 require("./configs/db");
 const mainRouter = require("./router/main");
 const ApiRouter = require("./router/api");
-// const middleware = require("./middleware/test");
-const {camelcase} = require("./middleware/admin");
-const morgan = require("morgan");
-// camelCase-keys
+const { default: omitEmpty } = require("omit-empty");
+//----------------------------------------------------------
 
-// middleware
-
+const removeEmptyFields = (options) => {
+  return function (req, res, next) {
+    req.body = omitEmpty(req.body, options);
+    return next();
+  };
+};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(camelcase)
+//فراخوانی 
+app.use(removeEmptyFields({omitZero : true}));
 
-// app.use(morgan("combined"))
+// خالی هارو پاک میکنه
+console.log(
+  omitEmpty(
+    {
+      firstname: "",
+      lastname: "",
+      age: 13,
+      email: "dfe@gmail.com",
+    },
+    { omitZero: true }
+  )
+);
+
+//----------------------------------------------
 
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
