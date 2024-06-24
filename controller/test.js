@@ -8,3 +8,13 @@ exports.test = (req, res) => {
   // روش دوم
   res.send(mongoose.Types.ObjectId.isValid(id));
 };
+exports.getUser = (req, res) => {
+  res.json({
+    message: "virgool user account",
+  });
+};
+exports.getPublish = (req, res) => {
+  res.json({
+    message: "virgool publish account",
+  });
+};
