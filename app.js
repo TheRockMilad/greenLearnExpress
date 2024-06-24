@@ -3,10 +3,12 @@ const app = express();
 require("./configs/db");
 const mainRouter = require("./router/main");
 const ApiRouter = require("./router/api");
+const middleware = require('./middleware/test')
 
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(middleware.testMiddleware)
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
 

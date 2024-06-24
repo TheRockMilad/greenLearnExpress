@@ -2,6 +2,10 @@ const express = require("express");
 const testRouter = express.Router();
 const testController = require("./../controller/test");
 
+// testRouter.use((req,res,next)=>{
+//   //codes
+// })
+
 testRouter.get(/^\/virgool\/@[a-zA-z]{3,25}$/,testController.getUser);
 testRouter.get("/middleware",(req,res,next)=>{
   console.log('middleware response')
