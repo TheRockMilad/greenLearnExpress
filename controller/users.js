@@ -5,7 +5,8 @@ const { isValidObjectId } = require("mongoose");
 // مدل اول - پیچینده تر ، پروژه های بزرگ
 module.exports = new (class {
   async allUser(req, res) {
-    const users = await UserModel.find({});
+    // const users = await UserModel.find({},"-updatedAt -createdAt")
+    const users = await UserModel.find({}).lean().select("name username age");
     res.status(200).json({
       message: "all users",
       users,
