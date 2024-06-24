@@ -18,3 +18,8 @@ exports.getPublish = (req, res) => {
     message: "virgool publish account",
   });
 };
+exports.middleware = (req, res) => {
+  res.json({
+    message: "route after middleware",
+  });
+};
