@@ -92,6 +92,27 @@ app.get("/test/:id", (req, res) => {
   // روش دوم
   res.send(mongoose.Types.ObjectId.isValid(id));
 });
+// ------------------ delete user ------------------------
+app.delete("/api/users/:id", async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id)) {
+    const userId = await UserModel.findById({ _id: id });
+    if (userId) {
+      await UserModel.deleteOne(userId);
+      res.status(200).json({
+        message: "User deleted successfully",
+      });
+    } else {
+      res.status(422).json({
+        message: "there is not user",
+      });
+    }
+  } else {
+    return res.status(422).json({
+      message: "UserID is not valid",
+    });
+  }
+});
 
 //------------------- CRUD Api -----------------------------
 app.post("/courses", (req, res) => {
