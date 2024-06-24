@@ -3,19 +3,20 @@ const app = express();
 require("./configs/db");
 const mainRouter = require("./router/main");
 const ApiRouter = require("./router/api");
-const middleware = require('./middleware/test')
-const morgan = require('morgan')
+// const middleware = require("./middleware/test");
+const {camelcase} = require("./middleware/admin");
+const morgan = require("morgan");
+// camelCase-keys
 
-// middleware 
+// middleware
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//مدل های مختلف مورگان
-app.use(morgan("combined"))
-// app.use(morgan("tiny"))
-// app.use(morgan("dev"))
-// app.use(morgan("short"))
+app.use(camelcase)
 
-// app.use(middleware.testMiddleware) //middleware
+// app.use(morgan("combined"))
+
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
 

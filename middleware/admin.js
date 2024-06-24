@@ -1,5 +1,7 @@
 const UserModel = require("./../models/users");
 const mongoose = require("mongoose");
+const camelcaseKeys = (...args) =>
+  import("camelcase-keys").then(({ default: camelcase }) => camelcase(args));
 
 async function isAdmin(req, res, next) {
   const { id } = req.body;
@@ -26,7 +28,14 @@ async function isAdmin(req, res, next) {
     }
   }
 }
+async function camelcase(req, res, next) {
+    // req.body = await camelcaseKeys(req.body);
+    req.params = await camelcaseKeys(req.body);
+    req.query = await camelcaseKeys(req.body);
+    next();
+  };
 
 module.exports = {
   isAdmin,
+  camelcase
 };
