@@ -1,10 +1,8 @@
 const express = require("express");
 const mainRouter = express.Router();
-const mongoose = require("mongoose");
+const mainController = require("./../controller/main");
 
-// main page 
-mainRouter.get("/", (req, res) => {
-    res.send("Hello world");
-  });
+// main page
+mainRouter.get("/", mainController.main);
 
 module.exports = mainRouter;

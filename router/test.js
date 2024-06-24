@@ -1,14 +1,7 @@
 const express = require("express");
 const testRouter = express.Router();
-const mongoose = require("mongoose");
+const testController = require("./../controller/test");
 
-testRouter.get("/:id", (req, res) => {
-  const { id } = req.params;
-  //روش اول
-  // res.send(isValidObjectId(id))
-  //  res.send(mongoose.isValidObjectId(id))
-  // روش دوم
-  res.send(mongoose.Types.ObjectId.isValid(id));
-});
+testRouter.get("/:id", testController.test);
 
 module.exports = testRouter;
