@@ -1,152 +1,22 @@
 const express = require("express");
 const app = express();
-// قبلا بجای میدلور های اکسپرس از این استفاده میشده
-//const bodyparser = require("body-parser")
 require("./configs/db");
-const UserModel = require("./models/users");
-const registerValidator = require("./validator/register");
-const { isValidObjectId } = require("mongoose");
-const mongoose = require("mongoose");
-// ------------------- middleware ---------------------------
+const userRouter = require("./router/users");
+const coursesRouter = require("./router/courses");
+const testRouter = require("./router/test");
+
+// middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// این دو تا پایینی کار دو تا بالایی میکنه
-// app.use(bodyparser.json())
-// app.use(bodyparser.urlencoded({extended :false}))
 
-//------------------ courses -------------------------
-const courses = [
-  {
-    id: 1,
-    title: "js",
-    price: 2000000,
-  },
-  {
-    id: 2,
-    title: "Python",
-    price: 6000000,
-  },
-  {
-    id: 3,
-    title: "node.js",
-    price: 4500000,
-  },
-];
-//-------------- get request --------------------
-app.get("/courses/:id", (req, res) => {
-  const course = courses.find(
-    (courses) => courses.id === Number(req.params.id)
-  );
-  if (course) {
-    res.send(`<h1>Name course is ${course.title}</h1>`);
-  }
-  res.send("<h1>Course not exist</h1>");
-});
-
-//--------------- main page -------------------
+// main page 
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
-// ------------- create user ---------------------
-app.post("/api/users", async (req, res) => {
-  const validationResult = registerValidator(req.body);
-  // اینجا چون خروجی ولیدیشن ریزالت یا ترو هست یا یک آرایه از خطا
-  // باید به طور صریح بررسی بشه که برابر با ترو هست یا نه
-  // console.log(validationResult);
-  if (validationResult !== true) {
-    return res.status(422).json(validationResult);
-  }
-  let { username, name, email, age, password } = req.body;
 
-  //بعد از اضافه شدن ولیدیتور نیازی به این نیست
-  // if (name === "" || username === "" || email === "") {
-  //   res.status(422).json({
-  //     message: "Data is not valid",
-  //   });
-  // } else {
-
-  await UserModel.create({ name, email, username, age, password });
-  res.status(201).json({
-    message: "New User created successfully",
-  });
-});
-
-//-------------- all response ------------------
-app.get("/courses", (req, res) => {
-  const course = courses.find(
-    (courses) => courses.id === Number(req.params.id)
-  );
-  res.send(courses);
-  //   res.send('Course test')
-  //   res.send("<H1>Course test in html</h1>")
-  //   res.json(courses)
-  //   res.json("test")
-  //   res.end("test course with end") دیگه استفاده نمیشه
-});
-//-------------------validation objectId-------------------
-app.get("/test/:id", (req, res) => {
-  const { id } = req.params;
-  //روش اول
-  // res.send(isValidObjectId(id))
-  //  res.send(mongoose.isValidObjectId(id))
-  // روش دوم
-  res.send(mongoose.Types.ObjectId.isValid(id));
-});
-// ------------------ delete user ------------------------
-app.delete("/api/users/:id", async (req, res) => {
-  const { id } = req.params;
-  if (isValidObjectId(id)) {
-    const userId = await UserModel.findById({ _id: id });
-    if (userId) {
-      await UserModel.deleteOne(userId);
-      res.status(200).json({
-        message: "User deleted successfully",
-      });
-    } else {
-      res.status(422).json({
-        message: "there is not user",
-      });
-    }
-  } else {
-    return res.status(422).json({
-      message: "UserID is not valid",
-    });
-  }
-});
-
-//------------------- CRUD Api -----------------------------
-app.post("/courses", (req, res) => {
-  // مدل دیگه ای استاتوس کد
-  // res.statusCode = 201
-  // res.send("main course created successfully ")
-
-  res.status(201).send("main course created successfully ");
-});
-
-app.put("/courses/:id", (req, res) => {
-  res.status(201).send("main course updated successfully ");
-});
-
-app.delete("/courses/:id", (req, res) => {
-  res.status(200).send("main course deleted successfully ");
-});
-
-//---------- A few parameters at route params -----------------------
-app.get("/api/users/:userID/article/:articleID", (req, res) => {
-  console.log(`User id is : ${req.params.userID}`);
-  console.log(`article id is : ${req.params.articleID}`);
-  res.json({
-    message: "Main user article send to clint",
-  });
-});
-
-// ------------ body ---------------
-app.post("/post", (req, res) => {
-  //  باید دو تا میدلور بنویسیم تا هم از فرم و هم از مقدار
-  //  رو دریافت کنه json
-  res.status(201).send("New main course created");
-  console.log(req.body);
-});
+app.use("/api/courses", coursesRouter);
+app.use("/api/users", userRouter);
+app.use('/api/test',testRouter)
 
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
