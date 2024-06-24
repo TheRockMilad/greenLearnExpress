@@ -1,22 +1,14 @@
 const express = require("express");
 const app = express();
 require("./configs/db");
-const userRouter = require("./router/users");
-const coursesRouter = require("./router/courses");
-const testRouter = require("./router/test");
+const mainRouter = require("./router/main");
+const ApiRouter = require("./router/api");
 
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// main page 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
-
-app.use("/api/courses", coursesRouter);
-app.use("/api/users", userRouter);
-app.use('/api/test',testRouter)
+app.use("/", mainRouter);
+app.use("/api/", ApiRouter);
 
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
