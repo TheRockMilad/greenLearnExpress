@@ -6,6 +6,7 @@ const ApiRouter = require("./router/api");
 const helmet = require('helmet')
 const cors = require('cors')
 const path = require('path')
+const viewsPath = require('./utils/viewPath')
 //----------------------------------------------------------
 
 app.use(express.json());
@@ -19,7 +20,7 @@ app.use(cors())
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
 app.use((req,res)=>{
-  res.sendFile(path.join(__dirname,"views","404.html"))
+  res.sendFile(path.join(viewsPath,"404.html"))
 })
 
 //--------------server---------------------------
