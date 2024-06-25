@@ -4,11 +4,13 @@ require("./configs/db");
 const mainRouter = require("./router/main");
 const ApiRouter = require("./router/api");
 const helmet = require('helmet')
+const cors = require('cors')
 //----------------------------------------------------------
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet())
+app.use(cors())
 
 //----------------------------------------------
 
