@@ -13,16 +13,23 @@ module.exports = new (class {
     });
   }
   async getUser(req, res) {
-    const user = await UserModel.findById({ _id: req.params.id });
-    if (!user) {
-      return res.status(404).json({
-        message: "this user not exist",
+    const { id } = req.params;
+    if (isValidObjectId(id)) {
+      const user = await UserModel.findById({ _id: req.params.id }).select("name username age");
+      if (!user) {
+        return res.status(404).json({
+          message: "this user not exist",
+        });
+      }
+      res.status(200).json({
+        message: "user with id",
+        user,
+      });
+    } else {
+      res.status(422).json({
+        message: "id is not valid",
       });
     }
-    res.status(200).json({
-      message: "user with id",
-      user,
-    });
   }
   async register(req, res) {
     const validationResult = registerValidator(req.body);
