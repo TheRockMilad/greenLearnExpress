@@ -20,8 +20,8 @@ app.use(cors())
 app.use("/", mainRouter);
 app.use("/api/", ApiRouter);
 app.use((req,res)=>{
-  res.sendFile(path.join(viewsPath,"404.html"))
-})
+  res.status(404).sendFile(path.join(viewsPath,"404.html"))
+}) 
 
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
