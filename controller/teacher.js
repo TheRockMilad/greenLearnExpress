@@ -1,4 +1,4 @@
-const TeacherModel = require('./../models/teachers')
+const {TeacherModel} = require('./../models/teachers')
 
 module.exports = new (class {
     async CreateTeacher(req,res) {

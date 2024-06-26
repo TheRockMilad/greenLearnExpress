@@ -9,4 +9,4 @@ teacherSchema.plugin(timeStamp);
 
 const TeacherModel = mongoose.model("Teacher", teacherSchema);
 
-module.exports = TeacherModel;
+module.exports =  {TeacherModel , teacherSchema};
