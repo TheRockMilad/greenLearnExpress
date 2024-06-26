@@ -1,5 +1,5 @@
 const CoursesModel = require("./../models/courses");
-const {TeacherModel} = require("./../models/teachers");
+const { TeacherModel } = require("./../models/teachers");
 //------------------ courses -------------------------
 const courses = [
   {
@@ -24,13 +24,15 @@ module.exports = new (class {
     //برای قبلی
     // const course = courses;
     // res.send(courses);
-    const courses = await CoursesModel.find({})
-      .select("title teacher")
-      .populate({
-        path: "teacher",
-        select: "fullName",
-      })
 
+    // const courses = await CoursesModel.find({})
+    //   .select("title teacher")
+    //   .populate({
+    //     path: "teacher",
+    //     select: "teacher.fullName",
+    //   })
+    const courses = await CoursesModel.find({},)
+      .select("title teacher.fullName teacher._id")
       .lean();
     res.status(200).json({
       data: courses,
@@ -47,11 +49,11 @@ module.exports = new (class {
     res.send("<h1>Course not exist</h1>");
   }
   async createCourse(req, res) {
-    const {id,title} = req.body
-    const teachers = await TeacherModel.findOne({ _id: id})
+    const { id, title } = req.body;
+    const teachers = await TeacherModel.findOne({ _id: id });
     const course = await CoursesModel.create({
       title,
-      teacher : teachers
+      teacher: teachers,
     });
     res.status(201).json({
       date: course,
