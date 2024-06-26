@@ -4,7 +4,8 @@ const {teacherSchema} = require('./teachers')
 
 const coursesSchema = new mongoose.Schema({
   title : { type: String, required: true },
-  teacher : {type : teacherSchema}
+  teacher : {type : teacherSchema},
+  comments : [{type : mongoose.Types.ObjectId , ref : "Comment"}]
 });
 
 coursesSchema.plugin(timeStamp);
