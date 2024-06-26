@@ -1,4 +1,4 @@
-const CoursesModel = require('./../models/courses')
+const CoursesModel = require("./../models/courses");
 //------------------ courses -------------------------
 const courses = [
   {
@@ -19,9 +19,22 @@ const courses = [
 ];
 
 module.exports = new (class {
-  allCourses(req, res) {
-    const course = courses;
-    res.send(courses);
+  async allCourses(req, res) {
+    //برای قبلی
+    // const course = courses;
+    // res.send(courses);
+    const courses = await CoursesModel.find({})
+      .select("title teacher")
+      .populate({
+        path : "teacher",
+        select : "fullName"
+      })
+
+      .lean();
+    res.status(200).json({
+      data: courses,
+      message: "all courses",
+    });
   }
   getCourseId(req, res) {
     const course = courses.find(
@@ -43,10 +56,10 @@ module.exports = new (class {
   }
   async createCourse2(req, res) {
     const Courses = await CoursesModel.create({
-      title : req.body.title,
-      teacher : req.body.teacher
+      title: req.body.title,
+      teacher: req.body.teacher,
     });
-    res.json({message : "new course added successfully"})
+    res.json({ message: "new course added successfully" });
   }
   editCourse(req, res) {
     res.status(201).send("main course updated successfully ");
