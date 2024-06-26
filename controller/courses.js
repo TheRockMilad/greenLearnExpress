@@ -1,5 +1,8 @@
 const CoursesModel = require("./../models/courses");
 const { TeacherModel } = require("./../models/teachers");
+const CommentsModel = require("./../models/comment");
+const CommentModel = require("./../models/comment");
+const { json } = require("express");
 //------------------ courses -------------------------
 const courses = [
   {
@@ -31,7 +34,7 @@ module.exports = new (class {
     //     path: "teacher",
     //     select: "teacher.fullName",
     //   })
-    const courses = await CoursesModel.find({},)
+    const courses = await CoursesModel.find({})
       .select("title teacher.fullName teacher._id")
       .lean();
     res.status(200).json({
@@ -80,5 +83,23 @@ module.exports = new (class {
   }
   deleteCourse(req, res) {
     res.status(200).send("main course deleted successfully ");
+  }
+  async setComments(req, res) {
+    const { body, courseId } = req.body;
+    const comment = await CommentModel.create({
+      body,
+    });
+    await CoursesModel.findByIdAndUpdate(
+      { _id: courseId },
+      {
+        $push: {
+          comments: comment._id,
+        },
+      }
+    );
+    res.status(201).json({
+      message : "comment set successfully",
+      data : comment
+    })
   }
 })();

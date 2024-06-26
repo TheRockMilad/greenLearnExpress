@@ -10,6 +10,9 @@ coursesRouter
   .get(coursesController.allCourses)
   .post(coursesController.createCourse);
 coursesRouter
+  .route("/comments")
+  .post(coursesController.setComments)
+coursesRouter
   .route("/:id")
   .get(coursesController.getCourseId)
   .put(coursesController.editCourse)
