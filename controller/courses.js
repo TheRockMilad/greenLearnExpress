@@ -36,6 +36,8 @@ module.exports = new (class {
     //   })
     const courses = await CoursesModel.find({})
       .select("title teacher.fullName teacher._id")
+      .populate("comments", "-__v -updatedAt -createdAt")
+      // .populate(teachers) // اگر رفرنس بودن برای هرکدوم یکی لازمه
       .lean();
     res.status(200).json({
       data: courses,
@@ -89,6 +91,7 @@ module.exports = new (class {
     const comment = await CommentModel.create({
       body,
     });
+    ur;
     await CoursesModel.findByIdAndUpdate(
       { _id: courseId },
       {
@@ -98,8 +101,8 @@ module.exports = new (class {
       }
     );
     res.status(201).json({
-      message : "comment set successfully",
-      data : comment
-    })
+      message: "comment set successfully",
+      data: comment,
+    });
   }
 })();
