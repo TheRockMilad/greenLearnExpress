@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 require("./configs/db");
 const mainRouter = require("./router/main");
-const ApiRouter = require("./router/api");
+const router = require("./router/router");
 const helmet = require('helmet')
 const cors = require('cors')
 const path = require('path')
@@ -18,7 +18,7 @@ app.use(cors())
 //----------------------------------------------
 
 app.use("/", mainRouter);
-app.use("/api/", ApiRouter);
+app.use("/api/", router);
 app.use((req,res)=>{
   res.status(404).sendFile(path.join(viewsPath,"404.html"))
 }) 
