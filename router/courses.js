@@ -3,6 +3,9 @@ const coursesRouter = express.Router();
 const coursesController = require("./../controller/courses");
 
 coursesRouter
+  .route("/new")
+  .post(coursesController.createCourse2);
+coursesRouter
   .route("/")
   .get(coursesController.allCourses)
   .post(coursesController.createCourse);
