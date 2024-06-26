@@ -1,8 +1,7 @@
 const CoursesModel = require("./../models/courses");
 const { TeacherModel } = require("./../models/teachers");
-const CommentsModel = require("./../models/comment");
 const CommentModel = require("./../models/comment");
-const { json } = require("express");
+
 //------------------ courses -------------------------
 const courses = [
   {
@@ -104,5 +103,13 @@ module.exports = new (class {
       message: "comment set successfully",
       data: comment,
     });
+  }
+  async getOne(req, res) {
+    const { title } = req.params;
+    const course = await CoursesModel.findOne({ title: title });
+    const comment = await CommentModel.find({
+      course: course._id,
+    }).select("body").lean();
+    res.json({ comment });
   }
 })();

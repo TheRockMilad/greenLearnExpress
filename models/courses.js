@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 const timeStamp = require("mongoose-timestamp");
-const {teacherSchema} = require('./teachers')
+const { teacherSchema } = require("./teachers");
 
 const coursesSchema = new mongoose.Schema({
-  title : { type: String, required: true },
-  teacher : {type : teacherSchema},
-  comments : [{type : mongoose.Types.ObjectId , ref : "Comment"}]
+  title: { type: String, required: true },
+  teacher: { type: teacherSchema },
+});
+
+coursesSchema.virtual("comments", {
+  ref: "Commands",
+  localField: "id",
+  foreignField: "course",
 });
 
 coursesSchema.plugin(timeStamp);
