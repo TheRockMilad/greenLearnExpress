@@ -9,6 +9,12 @@ const coursesSchema = new mongoose.Schema({
 
 coursesSchema.virtual("comments", {
   ref: "Commands",
+  localField: "_id",
+  foreignField: "course",
+});
+
+coursesSchema.virtual("Session", {
+  ref: "Session",
   localField: "id",
   foreignField: "course",
 });
