@@ -10,5 +10,11 @@ const storage = multer.diskStorage({
     cb(null, filename + ext);
   },
 });
-const uploader = multer({ storage });
+const maxSize = 3 * 1000 * 1000;
+const uploader = multer({
+  storage,
+  limits: {
+    fileSize: maxSize,
+  },
+});
 module.exports = uploader;
