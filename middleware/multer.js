@@ -7,7 +7,14 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const filename = Date.now() + Math.round(Math.random());
     const ext = path.extname(file.originalname);
-    cb(null, filename + ext);
+
+    const validFormats = [".jpg", ".jpeg", ".png"];
+
+    if (validFormats.includes(ext)) {
+      cb(null, filename + ext);
+    } else {
+      cb(new Error("Only .jpg | .jpeg | .png are valid files"));
+    }
   },
 });
 const maxSize = 3 * 1000 * 1000;
