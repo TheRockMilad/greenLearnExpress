@@ -23,6 +23,13 @@ app.use((req,res)=>{
   res.status(404).sendFile(path.join(viewsPath,"404.html"))
 }) 
 
+app.use((err,req,res,next)=>{
+  return res.json({
+    statusCode : err.status || 500,
+    msg : err.message || "Server Error"
+  })
+})
+
 //--------------server---------------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -34,8 +34,9 @@ module.exports = new (class {
     //     select: "teacher.fullName",
     //   })
     const courses = await CoursesModel.find({})
-      .select("title teacher.fullName teacher._id")
-      .populate("comments", "-__v -updatedAt -createdAt")
+      .select("title")
+      // این کار نمیکنه چون دیگه رفرنس نیست
+      // .populate("Comment", "-__v -updatedAt -createdAt")
       // .populate(teachers) // اگر رفرنس بودن برای هرکدوم یکی لازمه
       .lean();
     res.status(200).json({
