@@ -8,16 +8,18 @@ const storage = multer.diskStorage({
     const filename = Date.now() + Math.round(Math.random());
     const ext = path.extname(file.originalname);
 
-    const validFormats = [".jpg", ".jpeg", ".png"];
+    // const validFormats = [".jpg", ".jpeg", ".png"];
+    const validMimeTypes = ["image/jpg" ,"image/jpeg" , "image/png"]
 
-    if (validFormats.includes(ext)) {
+    // if (validMimeTypes.includes(ext)) {
+    if (validMimeTypes.includes(file.mimetype)) {
       cb(null, filename + ext);
     } else {
       cb(new Error("Only .jpg | .jpeg | .png are valid files"));
     }
   },
 });
-const maxSize = 3 * 1000 * 1000;
+const maxSize = 3 * 10000 * 10000;
 const uploader = multer({
   storage,
   limits: {
