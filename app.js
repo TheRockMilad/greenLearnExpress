@@ -7,11 +7,14 @@ const helmet = require('helmet')
 const cors = require('cors')
 const path = require('path')
 const viewsPath = require('./utils/viewPath')
+const cookieParser = require('cookie-parser')
+require('dotenv').config()
 //----------------------------------------------------------
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,"public")))
+app.use(cookieParser())
 app.use(helmet())
 app.use(cors())
 
@@ -27,7 +30,7 @@ app.use((req,res)=>{
 app.use((err,req,res,next)=>{
   return res.json({
     statusCode : err.status || 500,
-    msg : err.message || "Server Error"
+     msg : err.message || "Server Error"
   })
 })
 
