@@ -6,7 +6,7 @@ const { isValidObjectId } = require("mongoose");
 module.exports = new (class {
   async allUser(req, res) {
     // const users = await UserModel.find({},"-updatedAt -createdAt")
-    const users = await UserModel.find({}).lean().select("name username age");
+    const users = await UserModel.find({}).lean()
     res.status(200).json({
       message: "all users",
       users,
